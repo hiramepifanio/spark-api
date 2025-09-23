@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from core.models.project import Project
-from core.serializers.project_serializer import ProjectSerializer
+from core.project.models import Project
+from core.project.serializers import ProjectSerializer
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()

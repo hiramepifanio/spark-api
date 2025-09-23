@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from core.views.project_view import ProjectViewSet
+from core.project.views import ProjectViewSet
 
 router = DefaultRouter()
 router.register(r'projects', ProjectViewSet, basename='project')
