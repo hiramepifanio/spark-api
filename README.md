@@ -1,2 +1,2 @@
 # spark-api
-Rest API for Spark, a innovation management, built with Django Rest Framework.
+Rest API for Spark, a management platform for innovation projects, built with Django Rest Framework.
