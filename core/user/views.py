@@ -1,8 +1,9 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from core.models import CustomUser
-from core.user.serializers import UserSerializer
+from core.user.serializers import UserSerializer, CustomTokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -22,3 +23,7 @@ class RegisterView(generics.CreateAPIView):
         }
 
         return Response(response_data, status=status.HTTP_201_CREATED)
+    
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
