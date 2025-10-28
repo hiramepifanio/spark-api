@@ -1,4 +1,3 @@
-import uuid
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
@@ -28,9 +27,15 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
+    class UserRole(models.TextChoices):
+        COLLABORATOR = "collaborator", "Collaborator User"
+        MANAGER = "manager", "Manager User"
+
     username = None
     email = models.EmailField(unique=True)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='users', null=True)
+    role = models.CharField(max_length=50, choices=UserRole.choices, default=UserRole.COLLABORATOR)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
