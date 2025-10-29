@@ -4,10 +4,12 @@ from core.models import CustomUser
 from core.project.models import Project
 from core.stage.models import Stage
 from core.organization.models import Organization
+from core.project_workflow.models import ProjectWorkflow
 
 
 admin.site.register(Organization)
 admin.site.register(CustomUser)
+admin.site.register(ProjectWorkflow)
 
 # class CustomUserAdmin(UserAdmin):
 #     model = CustomUser
