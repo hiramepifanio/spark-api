@@ -20,6 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
     
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
@@ -35,4 +36,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             "first_name": self.user.first_name,
             "last_name": self.user.last_name,
         }
+
+        data['organization'] = {
+            "id": str(self.user.organization.id),
+            "name": self.user.organization.name
+        }
+
         return data
