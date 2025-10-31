@@ -1,6 +1,6 @@
 from rest_framework import generics
 from core.project_workflow.models import ProjectWorkflow
-from core.project_workflow.serializers import ProjectWorkflowSerializer
+from core.project_workflow.serializers import ProjectWorkflowSerializer, ProjectWorkflowDetailSerializer
 
 
 class ProjectWorkflowListView(generics.ListCreateAPIView):
@@ -14,7 +14,7 @@ class ProjectWorkflowListView(generics.ListCreateAPIView):
 
 
 class ProjectWorkflowDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ProjectWorkflowSerializer
+    serializer_class = ProjectWorkflowDetailSerializer
 
     def get_queryset(self):
         return ProjectWorkflow.objects.filter(organization=self.request.user.organization)
