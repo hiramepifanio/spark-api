@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from core.models import CustomUser
 from core.project.models import Project
-from core.stage.models import Stage
+from core.project_stage.models import ProjectStage
 from core.organization.models import Organization
 from core.project_workflow.models import ProjectWorkflow
 
@@ -10,6 +10,10 @@ from core.project_workflow.models import ProjectWorkflow
 admin.site.register(Organization)
 admin.site.register(CustomUser)
 admin.site.register(ProjectWorkflow)
+
+@admin.register(ProjectStage)
+class ProjectStageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'organization', 'project_workflow', 'name', 'order')
 
 # class CustomUserAdmin(UserAdmin):
 #     model = CustomUser
