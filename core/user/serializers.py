@@ -42,4 +42,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             "name": self.user.tenant.name
         }
 
+        if self.user.partner:
+            data['partner'] = {
+                "id": str(self.user.partner.id),
+                "name": self.user.partner.name
+            }
+
         return data

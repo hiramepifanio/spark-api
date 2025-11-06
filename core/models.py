@@ -31,10 +31,16 @@ class CustomUser(AbstractUser):
     class UserRole(models.TextChoices):
         COLLABORATOR = "collaborator", "Collaborator User"
         MANAGER = "manager", "Manager User"
+    
+    class OrganizationType(models.TextChoices):
+        TENANT = "tenant", "Tenant Organization"
+        PARTNER = "partner", "Partner Organization"
 
     username = None
     email = models.EmailField(unique=True)
     tenant = models.ForeignKey('TenantOrganization', on_delete=models.CASCADE, related_name='users', null=True)
+    partner = models.ForeignKey('PartnerOrganization', on_delete=models.CASCADE, related_name='users', null=True)
+    organization_type = models.CharField(max_length=50, choices=OrganizationType.choices, default=OrganizationType.TENANT)
     role = models.CharField(max_length=50, choices=UserRole.choices, default=UserRole.COLLABORATOR)
 
     USERNAME_FIELD = 'email'
