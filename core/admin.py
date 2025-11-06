@@ -13,7 +13,11 @@ class TenantOrganizationAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
 
 admin.site.register(Organization)
-admin.site.register(CustomUser)
+
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email', 'first_name', 'tenant')
+
 admin.site.register(ProjectWorkflow)
 
 @admin.register(ProjectStage)

@@ -35,6 +35,7 @@ class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     organization = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='users', null=True)
+    tenant = models.ForeignKey('TenantOrganization', on_delete=models.CASCADE, related_name='users', null=True)
     role = models.CharField(max_length=50, choices=UserRole.choices, default=UserRole.COLLABORATOR)
 
     USERNAME_FIELD = 'email'
