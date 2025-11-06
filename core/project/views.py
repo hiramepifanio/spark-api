@@ -5,21 +5,25 @@ from core.project.models import Project
 from core.project.serializers import ProjectSerializer
 from django.shortcuts import get_object_or_404
 
+
 class ProjectListView(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
-        return Project.objects.filter(organization=self.request.user.organization)
+        # return Project.objects.filter(organization=self.request.user.organization)
+        return Project.objects.filter(tenant=self.request.user.tenant)
 
     def perform_create(self, serializer):
-        serializer.save(organization=self.request.user.organization)
+        # serializer.save(organization=self.request.user.organization)
+        serializer.save(tenant=self.request.user.tenant)
 
 
 class ProjectDetailsView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
-        return Project.objects.filter(organization=self.request.user.organization)
+        # return Project.objects.filter(organization=self.request.user.organization)
+        return Project.objects.filter(tenant=self.request.user.tenant)
 
 
 class ProjectListByWorkflowAndStageView(generics.ListAPIView):
@@ -40,5 +44,5 @@ class ProjectListByWorkflowAndStageView(generics.ListAPIView):
         return Project.objects.filter(
             workflow=workflow,
             stage=stage,
-            organization=self.request.user.organization
+            tenant=self.request.user.tenant
         )

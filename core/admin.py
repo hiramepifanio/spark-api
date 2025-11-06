@@ -26,7 +26,7 @@ class ProjectStageAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'organization', 'name', 'is_active')
+    list_display = ('id', 'tenant', 'name', 'is_active')
 
 # class CustomUserAdmin(UserAdmin):
 #     model = CustomUser
