@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from core.project_workflow.models import ProjectWorkflow
 from core.project_stage.models import ProjectStage
-from core.project_stage.serializers import ProjectStageSerializer, ReorderProjectStagesSerializer
+from core.project_stage.serializers import ProjectStageSerializer, ProjectStageDetailSerializer, ReorderProjectStagesSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 
@@ -34,7 +34,7 @@ class ProjectStageListView(generics.ListCreateAPIView):
 
 
 class ProjectStageDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ProjectStageSerializer
+    serializer_class = ProjectStageDetailSerializer
 
     def get_queryset(self):
         return ProjectStage.objects.filter(

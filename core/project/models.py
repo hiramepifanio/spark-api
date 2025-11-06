@@ -1,11 +1,13 @@
 from django.db import models
-import uuid
 
 class Project(models.Model):
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='projects')
+    # partner_organization = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='projects')
+    workflow = models.ForeignKey('ProjectWorkflow', null=True, blank=True, on_delete=models.SET_NULL, related_name='projects')
+    stage = models.ForeignKey('ProjectStage', null=True, blank=True, on_delete=models.SET_NULL, related_name='projects')
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
-    started_at = models.DateField()
-    finished_at = models.DateField(null=True)
+    description = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
