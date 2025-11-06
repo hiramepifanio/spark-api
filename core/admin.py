@@ -1,11 +1,16 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from core.models import CustomUser
 from core.project_stage.models import ProjectStage
+from core.tenant_organization.models import TenantOrganization
 from core.organization.models import Organization
 from core.project_workflow.models import ProjectWorkflow
 from core.project.models import Project
 
+
+
+@admin.register(TenantOrganization)
+class TenantOrganizationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
 
 admin.site.register(Organization)
 admin.site.register(CustomUser)
