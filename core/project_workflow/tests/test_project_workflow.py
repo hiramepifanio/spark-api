@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 from core.models import CustomUser
-from core.organization.models import Organization
+from core.tenant_organization.models import TenantOrganization
 from core.project_workflow.models import ProjectWorkflow
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -23,25 +23,25 @@ def auth_headers():
 
 @pytest.fixture
 def setup_data(db):
-    org1 = Organization.objects.create(name="Org One")
-    org2 = Organization.objects.create(name="Org Two")
+    org1 = TenantOrganization.objects.create(name="Org One")
+    org2 = TenantOrganization.objects.create(name="Org Two")
 
     user1 = CustomUser.objects.create_user(
         email="user1@example.com",
         password="pass1234",
-        organization=org1,
+        tenant=org1,
     )
     user2 = CustomUser.objects.create_user(
         email="user2@example.com",
         password="pass1234",
-        organization=org2,
+        tenant=org2,
     )
 
     workflow1 = ProjectWorkflow.objects.create(
-        organization=org1, name="Org1 Workflow"
+        tenant=org1, name="Org1 Workflow"
     )
     workflow2 = ProjectWorkflow.objects.create(
-        organization=org2, name="Org2 Workflow"
+        tenant=org2, name="Org2 Workflow"
     )
 
     return {
@@ -55,7 +55,7 @@ def setup_data(db):
 
 
 @pytest.mark.django_db
-def test_list_only_user_organization_workflows(api_client, auth_headers, setup_data):
+def test_list_only_user_tenant_organization_workflows(api_client, auth_headers, setup_data):
     user1 = setup_data["user1"]
     response = api_client.get(reverse("project-workflow-list"), **auth_headers(user1))
     assert response.status_code == status.HTTP_200_OK
@@ -64,14 +64,14 @@ def test_list_only_user_organization_workflows(api_client, auth_headers, setup_d
 
 
 @pytest.mark.django_db
-def test_create_workflow_auto_assigns_organization(api_client, auth_headers, setup_data):
+def test_create_workflow_auto_assigns_tenant_organization(api_client, auth_headers, setup_data):
     user1 = setup_data["user1"]
     payload = {"name": "Internal Projects"}
     response = api_client.post(reverse("project-workflow-list"), payload, **auth_headers(user1))
     assert response.status_code == status.HTTP_201_CREATED
 
     workflow = ProjectWorkflow.objects.get(name="Internal Projects")
-    assert workflow.organization == user1.organization
+    assert workflow.tenant == user1.tenant
 
 
 @pytest.mark.django_db
@@ -88,7 +88,7 @@ def test_retrieve_workflow_detail(api_client, auth_headers, setup_data):
 
 @pytest.mark.django_db
 def test_retrieve_other_org_workflow_forbidden(api_client, auth_headers, setup_data):
-    """User should not be able to access workflows from other organizations"""
+    """User should not be able to access workflows from other tenant_organizations"""
     user1 = setup_data["user1"]
     workflow2 = setup_data["workflow2"]
     url = reverse("project-workflow-details", args=[workflow2.id])
@@ -114,7 +114,7 @@ def test_update_workflow_name(api_client, auth_headers, setup_data):
 
 @pytest.mark.django_db
 def test_update_other_org_workflow_forbidden(api_client, auth_headers, setup_data):
-    """User cannot update workflow from another organization"""
+    """User cannot update workflow from another tenant_organization"""
     user1 = setup_data["user1"]
     workflow2 = setup_data["workflow2"]
     url = reverse("project-workflow-details", args=[workflow2.id])
@@ -137,7 +137,7 @@ def test_delete_own_workflow(api_client, auth_headers, setup_data):
 
 @pytest.mark.django_db
 def test_delete_other_org_workflow_forbidden(api_client, auth_headers, setup_data):
-    """User cannot delete workflow from another organization"""
+    """User cannot delete workflow from another tenant_organization"""
     user1 = setup_data["user1"]
     workflow2 = setup_data["workflow2"]
     url = reverse("project-workflow-details", args=[workflow2.id])

@@ -37,11 +37,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             "last_name": self.user.last_name,
         }
 
-        data['organization'] = {
-            "id": str(self.user.organization.id),
-            "name": self.user.organization.name
-        }
-
         data['tenant'] = {
             "id": str(self.user.tenant.id),
             "name": self.user.tenant.name
