@@ -6,7 +6,7 @@ class ProjectWorkflowSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectWorkflow
         fields = "__all__"
-        read_only_fields = ["organization"]
+        read_only_fields = ["tenant"]
 
 
 class ProjectWorkflowDetailSerializer(serializers.ModelSerializer):
@@ -15,4 +15,4 @@ class ProjectWorkflowDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectWorkflow
         fields = "__all__"
-        read_only_fields = ["organization"]
+        read_only_fields = ["tenant"]

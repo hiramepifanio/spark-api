@@ -12,23 +12,23 @@ class ProjectStageListView(generics.ListCreateAPIView):
         project_workflow = get_object_or_404(
             ProjectWorkflow,
             pk=self.kwargs["project_workflow_pk"],
-            organization=self.request.user.organization
+            tenant=self.request.user.tenant
         )
 
         return ProjectStage.objects.filter(
             project_workflow=project_workflow,
-            organization=self.request.user.organization
+            tenant=self.request.user.tenant
         )
 
     def perform_create(self, serializer):
         project_workflow = get_object_or_404(
             ProjectWorkflow,
             pk=self.kwargs["project_workflow_pk"],
-            organization=self.request.user.organization
+            tenant=self.request.user.tenant
         )
 
         serializer.save(
-            organization=self.request.user.organization,
+            tenant=self.request.user.tenant,
             project_workflow=project_workflow
         )
 
@@ -38,7 +38,7 @@ class ProjectStageDetailsView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return ProjectStage.objects.filter(
-            organization=self.request.user.organization,
+            tenant=self.request.user.tenant,
             project_workflow__pk=self.kwargs["project_workflow_pk"]
         )
 
@@ -50,7 +50,7 @@ class ReorderProjectStagesView(generics.GenericAPIView):
         workflow = get_object_or_404(
             ProjectWorkflow,
             pk=project_workflow_pk,
-            organization=request.user.organization
+            tenant=request.user.tenant
         )
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

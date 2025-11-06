@@ -16,17 +16,19 @@ admin.site.register(Organization)
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email', 'first_name', 'tenant')
+    list_display = ('id', 'tenant', 'email', 'first_name')
 
-admin.site.register(ProjectWorkflow)
+@admin.register(ProjectWorkflow)
+class ProjectWorkflowAdmin(admin.ModelAdmin):
+    list_display = ('id', 'tenant', 'name')
 
 @admin.register(ProjectStage)
 class ProjectStageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'organization', 'project_workflow', 'name', 'order')
+    list_display = ('id', 'tenant', 'project_workflow', 'name', 'order')
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'tenant', 'name', 'is_active')
+    list_display = ('id', 'tenant', 'workflow', 'stage', 'name', 'is_active')
 
 # class CustomUserAdmin(UserAdmin):
 #     model = CustomUser

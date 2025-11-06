@@ -7,8 +7,7 @@ class ProjectStageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectStage
         fields = '__all__'
-        # exclude = ['project_workflow']
-        read_only_fields = ["organization", "order", 'project_workflow']
+        read_only_fields = ["tenant", "order", 'project_workflow']
 
 
 class ProjectStageDetailSerializer(serializers.ModelSerializer):
@@ -17,8 +16,7 @@ class ProjectStageDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectStage
         fields = '__all__'
-        # exclude = ['project_workflow']
-        read_only_fields = ["organization", "order", 'project_workflow']
+        read_only_fields = ["tenant", "order", 'project_workflow']
 
 
 class ReorderProjectStagesSerializer(serializers.Serializer):

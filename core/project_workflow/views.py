@@ -7,14 +7,14 @@ class ProjectWorkflowListView(generics.ListCreateAPIView):
     serializer_class = ProjectWorkflowSerializer
 
     def get_queryset(self):
-        return ProjectWorkflow.objects.filter(organization=self.request.user.organization)
+        return ProjectWorkflow.objects.filter(tenant=self.request.user.tenant)
 
     def perform_create(self, serializer):
-        serializer.save(organization=self.request.user.organization)
+        serializer.save(tenant=self.request.user.tenant)
 
 
 class ProjectWorkflowDetailsView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProjectWorkflowDetailSerializer
 
     def get_queryset(self):
-        return ProjectWorkflow.objects.filter(organization=self.request.user.organization)
+        return ProjectWorkflow.objects.filter(tenant=self.request.user.tenant)
