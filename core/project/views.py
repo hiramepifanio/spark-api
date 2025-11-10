@@ -4,10 +4,12 @@ from core.project_stage.models import ProjectStage
 from core.project.models import Project
 from core.project.serializers import ProjectSerializer
 from django.shortcuts import get_object_or_404
+from core.project.filters import ProjectFilter
 
 
 class ProjectListView(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
+    filterset_class = ProjectFilter
 
     def get_queryset(self):
         return Project.objects.filter(tenant=self.request.user.tenant)
