@@ -2,13 +2,13 @@ from rest_framework import generics
 from core.project_workflow.models import ProjectWorkflow
 from core.project_stage.models import ProjectStage
 from core.project.models import Project
-from core.project.serializers import ProjectSerializer
+from core.project.serializers import ProjectListCreateSerializer, ProjectDetailsSerializer
 from django.shortcuts import get_object_or_404
 from core.project.filters import ProjectFilter
 
 
 class ProjectListView(generics.ListCreateAPIView):
-    serializer_class = ProjectSerializer
+    serializer_class = ProjectListCreateSerializer
     filterset_class = ProjectFilter
 
     def get_queryset(self):
@@ -19,14 +19,14 @@ class ProjectListView(generics.ListCreateAPIView):
 
 
 class ProjectDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ProjectSerializer
+    serializer_class = ProjectDetailsSerializer
 
     def get_queryset(self):
         return Project.objects.filter(tenant=self.request.user.tenant)
 
 
 class ProjectListByWorkflowAndStageView(generics.ListAPIView):
-    serializer_class = ProjectSerializer
+    serializer_class = ProjectListCreateSerializer
 
     def get_queryset(self):
         workflow = get_object_or_404(

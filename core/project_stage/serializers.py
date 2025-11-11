@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from core.project_stage.models import ProjectStage
-from core.project.serializers import ProjectSerializer
+from core.project.serializers import ProjectListCreateSerializer
 
 
 class ProjectStageSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class ProjectStageSerializer(serializers.ModelSerializer):
 
 
 class ProjectStageDetailSerializer(serializers.ModelSerializer):
-    projects = ProjectSerializer(many=True, read_only=True)
+    projects = ProjectListCreateSerializer(many=True, read_only=True)
 
     class Meta:
         model = ProjectStage
